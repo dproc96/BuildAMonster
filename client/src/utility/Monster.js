@@ -9,7 +9,7 @@ class Monster {
                 dc: 9,
                 save: 1
             },
-            0.125: {
+            "1/8": {
                 ac: 12,
                 hp: 9,
                 attack: 3,
@@ -17,7 +17,7 @@ class Monster {
                 dc: 10,
                 save: 2
             },
-            0.25: {
+            "1/4": {
                 ac: 13,
                 hp: 15,
                 attack: 3,
@@ -25,7 +25,7 @@ class Monster {
                 dc: 10,
                 save: 2
             },
-            0.5: {
+            "1/2": {
                 ac: 13,
                 hp: 24,
                 attack: 4,

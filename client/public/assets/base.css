@@ -1,5 +1,10 @@
 body {
     background-color: #cccccc;
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, button {
+    font-family: 'Oswald', sans-serif;
 }
 
 h2 {
@@ -8,12 +13,28 @@ h2 {
     margin-bottom: 10px;
 }
 
+h3 {
+    margin: 5px;
+    margin-top: 10px;
+}
+
 p {
     margin: 5px;
+    font-size: 10px;
 }
 
 strong {
     font-weight: 700;
+}
+
+input {
+    outline: none;
+    border: none;
+    border-radius: 3px;
+}
+
+input:hover {
+    cursor: pointer;
 }
 
 button:focus {

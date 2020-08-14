@@ -1,0 +1,21 @@
+body {
+    background-color: "#FF293E";
+}
+
+h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+p {
+    margin: 5px;
+}
+
+strong {
+    font-weight: 700;
+}
+
+button:focus {
+    outline: none;
+}

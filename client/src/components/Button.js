@@ -23,7 +23,9 @@ class Button extends React.Component{
             border: "none",
             display: "block",
             marginTop: 10,
-            cursor: this.state.hovered ? "auto" : "pointer"
+            cursor: this.state.hovered ? "auto" : "pointer",
+            marginLeft: "auto",
+            marginRight: "auto"
         }
         return <button onClick={this.props.onClick} style={style}>{this.props.children}</button>
     }

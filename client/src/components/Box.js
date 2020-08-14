@@ -10,7 +10,9 @@ function Box(props) {
         marginTop: 30,
         color: theme.white,
         marginLeft: "auto",
-        marginRight: "auto"
+        marginRight: "auto",
+        boxShadow: "2px 2px 2px 2px rgba(0, 0, 0, 0.5)",
+        textAlign: "center"
     }
     return <div style={style}>{props.children}</div>
 }

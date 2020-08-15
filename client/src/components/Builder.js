@@ -3,6 +3,7 @@ import Box from "./Box";
 import Button from "./Button";
 import Monster from "../utility/Monster";
 import * as theme from "../utility/theme.json";
+import Attack from "./Attack";
 
 class Builder extends React.Component {
     constructor(props) {
@@ -106,6 +107,67 @@ class Builder extends React.Component {
         this.setState({ advanced: false })
     }
 
+    handleAttackChange = (e) => {
+        const multipliers = {
+            "At Will; One Target": 1,
+            "At Will; Multipe Targets": 0.5,
+            "Limited Use; One Target": 4,
+            "Limited Use; Multipe Targets": 2
+        }
+
+        let { name, value } = e.target;
+        const splitName = name.split("-")
+        const index = parseInt(splitName[0])
+        name = splitName[1]
+
+        const monster = {...this.state.monster};
+        const initial = monster.attacks[index][name]
+        let damageRemaining = monster.damageRemaining
+        monster.attacks[index][name] = value;
+
+        if (name === "damageSlider") {
+            const multiplier = multipliers[monster.attacks[index].targets]
+            const current = monster.attacks[index].damage
+            const base = current / multiplier
+            const max = base + damageRemaining
+            const percent = value / 100
+            const damage = max * percent
+            monster.damageRemaining = damageRemaining + base - damage
+            monster.attacks[index].damage = damage * multiplier
+        }
+
+        if (name === "targets") {
+            const multiplier = multipliers[value]
+            const current = monster.attacks[index].damage
+            const base = current / multipliers[initial]
+            const damage = base * multiplier
+            monster.attacks[index].damage = damage
+        }
+
+        this.setState({ 
+            monster: monster
+        })
+    }
+
+    handleAddAttack = () => {
+        const attack = {
+            name: "Attack",
+            type: "attack",
+            targets: "At Will; One Target",
+            dc: this.state.monster.stats.dc,
+            attack: this.state.monster.stats.attack,
+            damage: 0,
+            damageSlider: 0,
+            description: "Description..."
+        }
+        const monster = {...this.state.monster}
+        monster.attacks.push(attack)
+        console.log(monster)
+        this.setState({
+            monster: monster
+        })
+    }
+
     render() {
         const inputStyle = { 
             textAlign: "center", 
@@ -140,8 +202,11 @@ class Builder extends React.Component {
                             {stats}
                         </div>
                         <div style={{ gridColumn: "2 / span 1" }}>
-                            <h3>Attacks (Damage Pool Remaining: {monster.damageRemaining})</h3>
-                            <Button plus={true} />
+                            <h3>Attacks (Damage Pool Remaining: {Math.round(monster.damageRemaining)})</h3>
+                            {monster.attacks.map((attack, i) => {
+                                return <Attack onChange={this.handleAttackChange} {...attack} key={i} index={i}/>
+                            })}
+                            <Button onClick={this.handleAddAttack} plus={true} />
                             <h3>Traits</h3>
                             <Button plus={true} />
                         </div>

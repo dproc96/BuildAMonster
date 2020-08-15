@@ -2,6 +2,7 @@ import React from "react";
 import Box from "./Box";
 import Button from "./Button";
 import Monster from "../utility/Monster";
+import * as theme from "../utility/theme.json";
 
 class Builder extends React.Component {
     constructor(props) {
@@ -14,7 +15,9 @@ class Builder extends React.Component {
             attackSlider: 50,
             damageSlider: 50,
             dcSlider: 50,
-            saveSlider: 50
+            saveSlider: 50,
+            advanced: false,
+            name: "New CR 0 Monster"
         }
         this.multipliers = {
             hp: .5,
@@ -55,9 +58,17 @@ class Builder extends React.Component {
                 })
             }
         }
-        this.setState({
-            [name]: value
-        })
+        else if (name === "challenge") {
+            this.setState({
+                [name]: value,
+                name: `New CR ${value} Monster`
+            })
+        }
+        else {
+            this.setState({
+                [name]: value
+            })
+        }
     }
 
     handleSubmit = () => {
@@ -85,7 +96,30 @@ class Builder extends React.Component {
         })
     }
 
+    handleAdvanced = () => {
+        this.setState({ advanced: true })
+    }
+
+    handleUnAdvanced = () => {
+        this.setState({ advanced: false })
+    }
+
     render() {
+        const inputStyle = { 
+            textAlign: "center", 
+            padding: 5, 
+            margin: 10 
+        }
+
+        const nameStyle = {
+            ...inputStyle,
+            backgroundColor: "transparent", 
+            fontFamily: "'Oswald', sans serif", 
+            fontSize: 18, 
+            fontWeight: 700, 
+            color: theme.white
+        }
+
         if (this.state.monster) {
             const stats = Object.keys(this.state.monster.stats).map((key) => {
                 return (
@@ -96,10 +130,25 @@ class Builder extends React.Component {
                     </div>
                 )
             })
+            if (this.state.advanced) {
+                return (
+                    <Box width={600}>
+                        <input style={{ ...nameStyle, gridColumn: "1 / span 2" }} onChange={this.handleChange} value={this.state.name} name="name"></input>
+                        <div style={{ gridColumn: "1 / span 1" }}>
+                            {stats}
+                        </div>
+                        <div style={{ gridColumn: "2 / span 1" }}></div>
+                        <div style={{ gridColumn: "1 / span 2" }}>
+                            <Button onClick={this.handleUnAdvanced}>Return to Basic Editor</Button>
+                        </div>
+                    </Box>
+                )
+            }
             return (
                 <Box>
-                    <h2>New CR {this.state.challenge} Monster</h2>
+                    <input style={nameStyle} onChange={this.handleChange} value={this.state.name} name="name"></input>
                     {stats}
+                    <Button onClick={this.handleAdvanced}>Advanced Editor</Button>
                     <Button onClick={this.handleBack}>Back</Button>
                 </Box>
             )
@@ -108,7 +157,7 @@ class Builder extends React.Component {
             <Box>
                 <h2>Enter a Challenge Rating</h2>
                 <p>This could be a positive whole number, 0, 1/8, 1/4, or 1/2</p>
-                <input style={{textAlign: "center", padding: 5, margin: 10}} onChange={this.handleChange} id="challenge" name="challenge" value={this.state.challenge}></input>
+                <input style={inputStyle} onChange={this.handleChange} id="challenge" name="challenge" value={this.state.challenge}></input>
                 <p>Check out <a href="http://blogofholding.com/?p=7338" target="_blank" rel="noopener noreferrer">The Blog of Holding</a> or <a href="https://slyflourish.com/instant_npc_for_dnd_5e.html" target="_blank" rel="noopener noreferrer">Sly Flourish</a> for more information about how this system works. This project is not associated with either blog, just inspired by them.</p>
                 <Button onClick={this.handleSubmit}>Submit</Button>
             </Box>

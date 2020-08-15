@@ -18,16 +18,17 @@ class Button extends React.Component{
         const style = {
             backgroundColor: theme.primaryDark,
             color: theme.white,
-            padding: 5,
-            borderRadius: 3,
+            padding: this.props.plus ? "5px 10px" : 5,
+            borderRadius: this.props.plus ? "50%" : 3,
             border: "none",
             display: "block",
             marginTop: 10,
             cursor: this.state.hovered ? "auto" : "pointer",
             marginLeft: "auto",
-            marginRight: "auto"
+            marginRight: "auto",
+            fontSize: 16
         }
-        return <button onClick={this.props.onClick} style={style}>{this.props.children}</button>
+        return <button onClick={this.props.onClick} style={style}>{this.props.plus ? " + " : this.props.children}</button>
     }
 }
 

@@ -44,8 +44,10 @@ class Builder extends React.Component {
         if (id) {
             const monster = {...this.state.monster}
             if (this.multipliers.hasOwnProperty(id)) {
-                let multiplier = 1 + ((value - 50) * this.multipliers[id] / 50)
-                monster.stats[id] = Math.ceil(monster.baseStats[id] * multiplier)
+                let addition = Math.ceil(((value - 50) * this.multipliers[id] / 50) * monster.baseStats[id])
+                const current = monster.stats[id] 
+                monster.stats[id] = monster.baseStats[id] + addition
+                if (id === "damage") { monster.damageRemaining += (monster.stats[id] - current)}
                 this.setState({
                     monster: monster
                 })
@@ -60,15 +62,12 @@ class Builder extends React.Component {
         }
         else if (name === "challenge") {
             this.setState({
-                [name]: value,
                 name: `New CR ${value} Monster`
             })
         }
-        else {
-            this.setState({
-                [name]: value
-            })
-        }
+        this.setState({
+            [name]: value
+        })
     }
 
     handleSubmit = () => {
@@ -78,7 +77,10 @@ class Builder extends React.Component {
             this.setState({
                 monster: {
                     stats: monster.stats,
-                    baseStats: {...monster.stats}
+                    baseStats: {...monster.stats},
+                    attacks: [],
+                    traits: [],
+                    damageRemaining: monster.stats.damage
                 }
             })
         }
@@ -119,12 +121,12 @@ class Builder extends React.Component {
             fontWeight: 700, 
             color: theme.white
         }
-
-        if (this.state.monster) {
-            const stats = Object.keys(this.state.monster.stats).map((key) => {
+        const monster = this.state.monster ? {...this.state.monster} : null
+        if (monster) {
+            const stats = Object.keys(monster.stats).map((key) => {
                 return (
                     <div>
-                        <h3 key={key}><strong>{key.toUpperCase()}: </strong>{this.state.monster.stats[key]}</h3>
+                        <h3 key={key}><strong>{key.toUpperCase()}: </strong>{monster.stats[key]}</h3>
                         <input onChange={this.handleChange} type="range" key={key + "Slider"} name={key + "Slider"} id={key} value={this.state[key + "Slider"]} />
                         <p>{this.descriptions[key]}</p>
                     </div>
@@ -137,7 +139,12 @@ class Builder extends React.Component {
                         <div style={{ gridColumn: "1 / span 1" }}>
                             {stats}
                         </div>
-                        <div style={{ gridColumn: "2 / span 1" }}></div>
+                        <div style={{ gridColumn: "2 / span 1" }}>
+                            <h3>Attacks (Damage Pool Remaining: {monster.damageRemaining})</h3>
+                            <Button plus={true} />
+                            <h3>Traits</h3>
+                            <Button plus={true} />
+                        </div>
                         <div style={{ gridColumn: "1 / span 2" }}>
                             <Button onClick={this.handleUnAdvanced}>Return to Basic Editor</Button>
                         </div>

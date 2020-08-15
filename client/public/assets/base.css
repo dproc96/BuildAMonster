@@ -41,6 +41,10 @@ input:hover {
     cursor: pointer;
 }
 
+button:hover {
+    filter: brightness(80%);
+}
+
 button:focus {
     outline: none;
 }

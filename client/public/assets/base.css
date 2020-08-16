@@ -37,6 +37,11 @@ input {
     border-radius: 3px;
 }
 
+textarea {
+    font-family: 'Open Sans', sans-serif;
+    resize: vertical;
+}
+
 input:hover {
     cursor: pointer;
 }

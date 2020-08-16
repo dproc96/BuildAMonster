@@ -4,6 +4,7 @@ import Button from "./Button";
 import Monster from "../utility/Monster";
 import * as theme from "../utility/theme.json";
 import Attack from "./Attack";
+import Trait from "./Trait";
 
 class Builder extends React.Component {
     constructor(props) {
@@ -180,6 +181,32 @@ class Builder extends React.Component {
         })
     }
 
+    handleAddTrait = () => {
+        const trait = {
+            name: "Trait",
+            description: "Description..."
+        }
+        const monster = { ...this.state.monster }
+        monster.traits.push(trait)
+        this.setState({
+            monster: monster
+        })
+    }
+
+    handleTraitChange = (e) => {
+        let { name, value } = e.target;
+        const splitName = name.split("-")
+        const index = parseInt(splitName[0])
+        name = splitName[1]
+
+        const monster = { ...this.state.monster };
+        monster.traits[index][name] = value;
+
+        this.setState({
+            monster: monster
+        })
+    }
+
     render() {
         const inputStyle = { 
             textAlign: "center", 
@@ -220,10 +247,14 @@ class Builder extends React.Component {
                             })}
                             <Button onClick={this.handleAddAttack} plus={true} />
                             <h3>Traits</h3>
-                            <Button plus={true} />
+                            {monster.traits.map((trait, i) => {
+                                return <Trait onChange={this.handleTraitChange} {...trait} key={i} index={i}/>
+                            })}
+                            <Button onClick={this.handleAddTrait} plus={true} />
                         </div>
                         <div style={{ gridColumn: "1 / span 2" }}>
                             <Button onClick={this.handleUnAdvanced}>Return to Basic Editor</Button>
+                            <Button onClick={this.handleBack}>Back</Button>
                         </div>
                     </Box>
                 )

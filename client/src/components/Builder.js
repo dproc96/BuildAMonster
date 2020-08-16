@@ -38,6 +38,12 @@ class Builder extends React.Component {
             hp: "If you raise HP, consider lowering AC or Offense",
             damage: "This is the damage pool for the creature's entire turn, if you increase this, consider lowering the attack bonus or Defense"
         }
+        this.targetMultipliers = {
+            "At Will; One Target": 1,
+            "At Will; Multipe Targets": 0.5,
+            "Limited Use; One Target": 4,
+            "Limited Use; Multipe Targets": 2
+        }
     }
 
     handleChange = (e) => {
@@ -48,7 +54,15 @@ class Builder extends React.Component {
                 let addition = Math.ceil(((value - 50) * this.multipliers[id] / 50) * monster.baseStats[id])
                 const current = monster.stats[id] 
                 monster.stats[id] = monster.baseStats[id] + addition
-                if (id === "damage") { monster.damageRemaining += (monster.stats[id] - current)}
+                if (id === "damage") { 
+                    monster.damageRemaining += (monster.stats[id] - current)
+                    monster.attacks.forEach(attack => {
+                        const damage = attack.damage
+                        const multiplier = this.targetMultipliers[attack.targets]
+                        const base = damage / multiplier
+                        attack.damageSlider = (base / (monster.damageRemaining + base)) * 100
+                    })
+                }
                 this.setState({
                     monster: monster
                 })
@@ -76,13 +90,7 @@ class Builder extends React.Component {
         if (challenge >= 0 || ["1/8", "1/4", "1/2"].indexOf(challenge) > -1) {
             const monster = new Monster(challenge);
             this.setState({
-                monster: {
-                    stats: monster.stats,
-                    baseStats: {...monster.stats},
-                    attacks: [],
-                    traits: [],
-                    damageRemaining: monster.stats.damage
-                }
+                monster: monster
             })
         }
     }
@@ -108,13 +116,6 @@ class Builder extends React.Component {
     }
 
     handleAttackChange = (e) => {
-        const multipliers = {
-            "At Will; One Target": 1,
-            "At Will; Multipe Targets": 0.5,
-            "Limited Use; One Target": 4,
-            "Limited Use; Multipe Targets": 2
-        }
-
         let { name, value } = e.target;
         const splitName = name.split("-")
         const index = parseInt(splitName[0])
@@ -125,21 +126,33 @@ class Builder extends React.Component {
         let damageRemaining = monster.damageRemaining
         monster.attacks[index][name] = value;
 
+        /* 
+        Need to make damage sliders responsive to changes in damage remaining whether from another attack or from base damage increasing
+        */
+
         if (name === "damageSlider") {
-            const multiplier = multipliers[monster.attacks[index].targets]
+            const multiplier = this.targetMultipliers[monster.attacks[index].targets]
             const current = monster.attacks[index].damage
             const base = current / multiplier
             const max = base + damageRemaining
             const percent = value / 100
             const damage = max * percent
             monster.damageRemaining = damageRemaining + base - damage
+            monster.attacks.forEach((attack, i) => {
+                if (i !== index) {
+                    const damage = attack.damage
+                    const multiplier = this.targetMultipliers[attack.targets]
+                    const base = damage / multiplier
+                    attack.damageSlider = (base / (monster.damageRemaining + base)) * 100
+                }
+            })
             monster.attacks[index].damage = damage * multiplier
         }
 
         if (name === "targets") {
-            const multiplier = multipliers[value]
+            const multiplier = this.targetMultipliers[value]
             const current = monster.attacks[index].damage
-            const base = current / multipliers[initial]
+            const base = current / this.targetMultipliers[initial]
             const damage = base * multiplier
             monster.attacks[index].damage = damage
         }
@@ -162,7 +175,6 @@ class Builder extends React.Component {
         }
         const monster = {...this.state.monster}
         monster.attacks.push(attack)
-        console.log(monster)
         this.setState({
             monster: monster
         })

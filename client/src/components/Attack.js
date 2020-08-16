@@ -32,7 +32,7 @@ function Attack(props) {
                 <option value="Limited Use; One Target">Limited Use; One Target</option>
                 <option value="Limited Use; Multipe Targets">Limited Use; Multipe Targets</option>
             </select>
-            <p>{props.type === "save" ? `DC${props.dc} Saving Throw` : `+${props.attack} to hit`}; {Math.ceil(props.damage)} damage; {props.targets}</p>
+            <p>{props.type === "save" ? `DC${props.dc} Saving Throw` : `+${props.attack} to hit`}; {Math.round(props.damage)} damage; {props.targets}</p>
             <input type="range" name={props.index + "-damageSlider"} onChange={props.onChange} value={props.damageSlider} />
             <textarea name={props.index + "-description"} onChange={props.onChange} value={props.description}></textarea>
         </div>

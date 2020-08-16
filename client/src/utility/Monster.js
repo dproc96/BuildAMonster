@@ -65,6 +65,29 @@ class Monster {
                 }
             }
         }  
+        this.attacks = []
+        this.traits = []
+        this.damageRemaining = this.stats.damage
+        this.baseStats = {...this.stats}
+    }
+
+    setDamageRemaining = (value, ignoreIndex=-1) => {
+        const multipliers = {
+            "At Will; One Target": 1,
+            "At Will; Multipe Targets": 0.5,
+            "Limited Use; One Target": 4,
+            "Limited Use; Multipe Targets": 2
+        }
+        this.damageRemaining = value
+        console.log(this)
+        this.attacks.forEach((attack, i) => {
+            if (i !== ignoreIndex) {
+                const damage = attack.damage
+                const multiplier = multipliers[attack.targets]
+                const base = damage / multiplier
+                attack.damageSlider = base / value
+            }
+        })
     }
 }
 

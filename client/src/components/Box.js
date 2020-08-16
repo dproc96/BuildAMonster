@@ -8,6 +8,7 @@ function Box(props) {
         padding: 10,
         borderRadius: 5,
         marginTop: 30,
+        marginBotton: 30,
         color: theme.white,
         marginLeft: "auto",
         marginRight: "auto",

@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import Builder from "./components/Builder";
+import Header from "./components/Header";
 
 class App extends Component {
   render() {
     return (
-      <Builder />
+      <div>
+        <Header>Build-A-Monster Workshop</Header>
+        <Builder />
+      </div>
     );
   }
 }

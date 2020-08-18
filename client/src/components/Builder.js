@@ -267,7 +267,7 @@ class Builder extends React.Component {
         return (
             <Box>
                 <h2>Enter a Challenge Rating</h2>
-                <p>This could be a positive whole number, 0, 1/8, 1/4, or 1/2. Generally, the sum of the CRs in a fight should be less than or equal to half the total levels of the PCs (or 1/4 if below level 4).</p>
+                <p>This could be a positive whole number, 0, 1/8, 1/4, or 1/2. Generally, the sum of the CRs in a fight should be less than or equal to half the total levels of the PCs (or a quarter if below level 5).</p>
                 <input style={inputStyle} onChange={this.handleChange} id="challenge" name="challenge" value={this.state.challenge}></input>
                 <p>Check out <a href="http://blogofholding.com/?p=7338" target="_blank" rel="noopener noreferrer">The Blog of Holding</a> or <a href="https://slyflourish.com/instant_npc_for_dnd_5e.html" target="_blank" rel="noopener noreferrer">Sly Flourish</a> for more information about how this system works. This project is not associated with either blog, just inspired by them.</p>
                 <Button onClick={this.handleSubmit}>Submit</Button>

@@ -5,7 +5,7 @@ import Header from "./components/Header";
 class App extends Component {
   render() {
     return (
-      <div>
+      <div style={{paddingBottom: 40}}>
         <Header>Build-A-Monster Workshop</Header>
         <Builder />
       </div>

@@ -6,7 +6,7 @@ This application is for Game Masters running 5th Edition Dungeons and Dragons wh
 
 ## Where can I find it?
 
-You can find it right (here)[https://build-a-monster.web.app/]
+You can find it right [here](https://build-a-monster.web.app/)
 
 ## What does it do?
 

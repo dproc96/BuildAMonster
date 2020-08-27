@@ -1,10 +1,18 @@
-# Create React Express App
+# Build-A-Monster
 
-## About This Boilerplate
+## Who is this for?
 
-This setup allows for a Node/Express/React app which can be easily deployed to Heroku.
+This application is for Game Masters running 5th Edition Dungeons and Dragons who want to create NPCs and Monsters on the fly without worrying about all of the math that is typically involved.
 
-The front-end React app will auto-reload as it's updated via webpack dev server, and the backend Express app will auto-reload independently with nodemon.
+## Where can I find it?
+
+You can find it right (here)[https://build-a-monster.web.app/]
+
+## What does it do?
+
+When you open my application, you will be greeted with a screen asking you to add a challenge rating. When you hit submit, you will be given the base stats of your NPC or Monster which you can adjust up or down based on your concept.
+
+You also have the option to enter the advanced editor which lets you create attack options for the NPC or monster using the damage pool you've generated.
 
 ## Starting the app locally
 
@@ -23,7 +31,3 @@ npm start
 ```
 
 Your app should now be running on <http://localhost:3000>. The Express server should intercept any AJAX requests from the client.
-
-## Deployment (Heroku)
-
-To deploy, simply add and commit your changes, and push to Heroku. As is, the NPM scripts should take care of the rest.

@@ -10,6 +10,8 @@ You can find it right [here](https://build-a-monster.web.app/)
 
 ## What does it do?
 
+This application was inspired by the writing of the Blog of Holding and Sly Flourish blogs. They were the ones who broke down the NPC creation and encounter building math that my application uses. This application is purely intended as a streamlined way of using their math.
+
 When you open my application, you will be greeted with a screen asking you to add a challenge rating. When you hit submit, you will be given the base stats of your NPC or Monster which you can adjust up or down based on your concept.
 
 You also have the option to enter the advanced editor which lets you create attack options for the NPC or monster using the damage pool you've generated.
